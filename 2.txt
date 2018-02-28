@@ -1,0 +1,51 @@
+name: unitconverter:1.1
+kind: blueprint
+metadata: {}
+gateways:
+  '9050':
+    port: '9050'
+    sticky: null
+    virtual_hosts: []
+    routes:
+      metric/webport:
+        lookup_name: cfebcc51255c7932ebbced53cdfc033b84a13c56
+        weight: null
+        balance: default
+        condition: null
+        condition_strength: null
+        rewrites: []
+clusters:
+  metric:
+    metadata: {}
+    services:
+    - breed:
+        name: unitconverter:1.1
+        kind: breed
+        metadata: {}
+        deployable:
+          definition: ashishprmodi/unitconverter:1.1
+        ports:
+          webport: 8080/http
+        environment_variables: {}
+        constants: {}
+        arguments: []
+        dependencies: {}
+      environment_variables: {}
+      scale:
+        cpu: 0.2
+        memory: 64.00MB
+        instances: 1
+      arguments: []
+      health_checks:
+      - path: /
+        port: webport
+        initial_delay: 10s
+        timeout: 5s
+        interval: 10s
+        failures: 10
+        protocol: HTTP
+      dialects: {}
+    gateways: {}
+    dialects: {}
+environment_variables: {}
+dialects: {}
